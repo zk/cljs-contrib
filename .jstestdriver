@@ -1,0 +1,7 @@
+server: http://localhost:4224
+
+load:
+  - jsdeps/underscore.min.js
+  - jsdeps//jquery-1.4.4.min.js
+  - jsout/*.js
+
