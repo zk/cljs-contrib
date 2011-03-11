@@ -1,6 +1,7 @@
 (ns widgets
   (:use html
-        util)
+        util
+        widgets.panel)
   (:import [jQuery :as $]))
 
 ;; Tab Panel
@@ -32,36 +33,6 @@
       (.blur t))
     (.focus (first tabs))
     el))
-
-(defn layout-css [name]
-  (cond
-   (= :fill name) fill-css
-   :else {}))
-
-(def wrap-css {:width "100%"
-               :height "100%"
-               :position :relative})
-
-(def fill-css {:position :absolute
-               :top 0
-               :left 0
-               :right 0
-               :bottom 0})
-
-(defn panel [& o]
-  (let [opts (if (string? (first o))
-               (apply hash-map o)
-               (first o)) 
-        content ($html [:div {:class "panel-content"}])
-        wrap ($html [:div {:class "panel"} content])
-        layout (or (:layout opts) :fill)]
-    (append content (:items opts))
-    (css wrap wrap-css)
-    (when (:style opts)
-      (css content (:style opts)))
-    (css content (layout-css layout))
-    {:el wrap
-     :size (:size opts)}))
 
 (defn window-frame [& o]
   (let [opts (apply hash-map o)

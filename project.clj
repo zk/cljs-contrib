@@ -13,4 +13,5 @@
                      util-test
                      widgets-test
                      functional.border-layout
-                     functional.card-layout]})
+                     functional.card-layout
+                     functional.panel-widgets]})
