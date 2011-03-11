@@ -133,7 +133,6 @@
                          west-width (width west)
                          east-width (width east)
                          center-width (- total-width west-width east-width)]
-                     (println (.outerWidth wrap))
                      (css center {:height center-height
                                   :width center-width
                                   :marginLeft west-width})

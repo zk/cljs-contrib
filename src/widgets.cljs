@@ -82,7 +82,8 @@
     (css body {:width "100%"
                :height "100%"
                :padding 0
-               :margin 0})
+               :margin 0
+               :overflow "hidden"})
     (css el fill-css)
     (.empty container)
     (append container el)

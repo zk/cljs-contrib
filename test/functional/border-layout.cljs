@@ -23,69 +23,98 @@
   (.floor 'Math (* 255 (.random 'Math))))
 
 (defn random-color []
-  (str
-   "rgb("
-   (r255)
-   ","
-   (r255)
-   ","
-   (r255)
-   ")"))
+  (let [n0 (r255)
+        n1 (r255)
+        n2 (r255)
+        bgcolor (str
+                 "rgb("
+                 (r255)
+                 ","
+                 (r255)
+                 ","
+                 (r255)
+                 ")")
+        fgcolor "black"]
+    {:backgroundColor bgcolor
+     :color fgcolor}))
 
-(defn gen-bl [center]
+(defn basic [center]
   (border/layout
    :north (panel :items "NORTH"
                  :size 50
-                 :style {:backgroundColor (random-color)})
+                 :style (random-color))
    :center (or center
                (panel
                 :items "CENTER"
-                :style {:backgroundColor (random-color)}))
+                :style (random-color)))
    :west (panel
           :items "WEST"
-          :style {:backgroundColor (random-color)})
+          :style (random-color))
    :east (panel
           :items "EAST"
-          :style {:backgroundColor (random-color)})
+          :style (random-color))
    :south (panel
            :items "SOUTH"
-           :style {:backgroundColor (random-color)
-                   :color "white"})))
+           :style (random-color))))
+
+(defn nested []
+  (basic (basic (basic))))
+
+(defn button [text f]
+  (doto ($html [:a {:href "#"} text])
+    (.click (fn []
+              (f)
+              false))))
+
+(defn sizes []
+  (border/layout
+   :north (panel :items "NORTH 50"
+                 :size 50
+                 :style (random-color))
+   :center (panel
+            :items "CENTER"
+            :style (random-color))
+   :west (panel
+          :items "WEST 100"
+          :style (random-color)
+          :size 100)
+   :east (panel
+          :items "EAST 200"
+          :style (random-color)
+          :size 200)
+   :south (panel
+           :items "SOUTH 25"
+           :style (random-color)
+           :size 25)))
+
+(defn toolbar []
+  ($html
+   [:div {:class "toolbar"
+          :style "background-color: white; border-bottom: solid black 1px;"}
+    (button "basic" (fn []
+                      (let [body ($ "body")]
+                        (empty body)
+                        (window-frame :content (main (basic))))))
+    "&nbsp;"
+    (button "nested" (fn []
+                       (let [body ($ "body")]
+                         (empty body)
+                         (window-frame :content (main (nested))))))
+    "&nbsp;"
+    (button "sizes" (fn []
+                       (let [body ($ "body")]
+                         (empty body)
+                         (window-frame :content (main (sizes))))))]))
+
+(defn main [content]
+  (border/layout :north (toolbar)
+                 :center content))
 
 (ready
  (fn []
    (window-frame
     :style {:backgroundColor "green"}
-    :content (gen-bl (gen-bl)))))
-
-#_(window-frame
-    :style {:backgroundColor "green"}
-    :content (border/layout
-              :north (panel :items "NORTH"
-                            :style {:backgroundColor "blue"})
-              :west (panel
-                     :items "WEST"
-                     :style {:backgroundColor "yellow"})
-              :center (panel
-                       :items "CENTER"
-                       :style {:backgroundColor "cyan"})
-              :east (panel
-                     :items "EAST"
-                     :style {:backgroundColor "pink"})
-              :south (panel
-                      :items "SOUTH"
-                      :style {:backgroundColor "red"
-                              :color "white"})))
-
-#_(border-layout
-   :north
-   (panel :items [($html [:div "FOO!"])]
-          :style {:backgroundColor "blue"}))
-
-#_(toolbar :left (panel :items ($html [:button "stuff"]))
-                              :center (panel :items ($html [:div "TITLE"]))
-                              :right ($html [:button "cool stuff"]))
-
+    :content (main (basic)))))
 
 
 
