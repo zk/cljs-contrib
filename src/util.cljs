@@ -48,3 +48,13 @@
 
 (defn ajax [opts]
   (.ajax $ opts))
+
+(defn css [el o]
+  (when el
+    (.css el o)))
+
+(defn empty [el]
+  (when el
+    (.empty el)))
+
+

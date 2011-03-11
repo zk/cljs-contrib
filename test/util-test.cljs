@@ -1,5 +1,5 @@
 (ns util-test
-  (:use util test-helpers html)
+  (:use util test html)
   (:import [jQuery :as $]))
 
 (defn do-append [thing]

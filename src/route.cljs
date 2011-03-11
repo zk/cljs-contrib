@@ -22,15 +22,19 @@
       (.slice 1)))
 
 
+
 (defn make-router []
   (let [routes []
         on-change (fn []
-                    (let [match (.detect _ routes
-                                         (fn [r]
-                                           (.test (:route r) 'location.hash)))]
-                      (if match
-                        (do
-                          (.apply (:callback match) 'this (parse-params match 'location.hash))))))]
+                    (let [match (.detect
+                                 _
+                                 routes
+                                 (fn [r]
+                                   (.test (:route r) 'location.hash)))]
+                      (when match
+                        (.apply (:callback match)
+                                'this
+                                (parse-params match 'location.hash)))))]
     (.hashchange
      ($ 'window)
      on-change)

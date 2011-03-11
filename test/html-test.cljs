@@ -1,5 +1,5 @@
 (ns html-test
-  (:use html test-helpers))
+  (:use html test))
 
 (deftest :test-parse-attrs
   #(is (_= {} (parse-attrs [:div ($ "<div />")])))
