@@ -1,7 +1,7 @@
 (ns widgets
   (:use html
         util
-        widgets.panel)
+        widgets.util)
   (:import [jQuery :as $]))
 
 ;; Tab Panel

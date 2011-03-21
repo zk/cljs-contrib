@@ -1,16 +1,6 @@
 (ns widgets.panel
   (:use util html widgets.util))
 
-(def wrap-css {:width "100%"
-               :height "100%"
-               :position :relative})
-
-(def fill-css {:position :absolute
-               :top 0
-               :left 0
-               :right 0
-               :bottom 0})
-
 (defn width [o]
   (if (has-el? o)
     (.width (:el o))
@@ -26,27 +16,31 @@
    (= :fill name) fill-css
    :else {}))
 
-(defn cover-left [panel content]
-  (let [w (width panel)
+(defn cover [panel content]
+  (let [dir :left
+        w (width panel)
         h (height panel)
         pc (panel-content content)
         children (.children (:el panel))]
     (css pc {:width w
              :height h
              :position :absolute
-             :left (+ w 1)
+             dir (+ w 1)
              :top 0
              :zIndex 9999})
     (append (:el panel) pc)
-    (.animate pc {:left 0}
+    (.animate pc {dir 0}
               300
               (fn []
                 (css children {:zIndex -100
-                               :display :none})
+                               :position :absolute
+                               :top 0
+                               :left 0
+                               :visibility :hidden})
                 (css pc {:width "100%"
                          :height "100%"
                          :position :relative
-                         :zIndex 0})))))
+                         :zIndex 1})))))
 
 (defn back [panel]
   (let [w (width panel)
@@ -54,8 +48,8 @@
         children (.children (:el panel))
         l ($ (last children))
         bl ($ (nth children (dec (dec (count children)))))]
-    (css bl {:display :block
-             :zIndex -1})
+    (css bl {:zIndex -1
+             :visibility :visible})
     (css l {:position :absolute
             :top 0
             :left 0})
@@ -64,7 +58,8 @@
                 (css bl {:width "100%"
                          :height "100%"
                          :position :relative
-                         :zIndex 0})
+                         :zIndex 0
+                         :visibility :visible})
                 (.remove l)))))
 
 (defn panel-content [content]
@@ -85,6 +80,3 @@
     (css content (layout-css layout))
     {:el wrap
      :size (:size opts)}))
-
-
-
