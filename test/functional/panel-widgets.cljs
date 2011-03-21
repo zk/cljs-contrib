@@ -1,17 +1,24 @@
 (ns functional.panel-widgets
-  (:use util html widgets.panel widgets))
+  (:use util html widgets widgets.panel))
+
+(defn timeout [f delay]
+  ('setTimeout f (if delay delay 1000)))
 
 (defn run [p]
-  ('setTimeout #(cover-left p (panel :items "BAR"
-                                     :style {:backgroundColor "blue"
-                                             :padding "20px"})) 500)
-  ('setTimeout #(cover-left p (panel :items "BAZ"
-                                     :style {:backgroundColor "red"
-                                             :padding "20px"})) 1000)
-  ('setTimeout #(cover-left p (panel :items "BAP"
-                                     :style {:backgroundColor "black"
-                                             :color "white"
-                                             :padding "20px"})) 1500)
+  (timeout #(cover p (panel :items "BAR"
+                            :style {:backgroundColor "blue"
+                                    :padding "20px"}))
+           500)
+  ('setTimeout #(cover p (panel :items "BAZ"
+                                :style {:backgroundColor "red"
+                                        :padding "20px"}))
+               1000)
+  ('setTimeout #(cover p (panel :items "BAP"
+                                :style {:backgroundColor "black"
+                                        :color "white"
+                                        :padding "20px"}))
+               1500)
+  
   ('setTimeout #(back p) 2500)
   ('setTimeout #(back p) 3000)
   ('setTimeout #(back p) 3500))

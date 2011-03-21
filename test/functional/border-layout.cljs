@@ -1,5 +1,5 @@
 (ns functional.border-layout
-  (:use util html widgets)
+  (:use util html widgets widgets.panel)
   (:require [layout.border :as border]))
 
 (defn toolbar [& o]
