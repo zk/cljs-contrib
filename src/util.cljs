@@ -21,7 +21,7 @@
   (.empty p)
   (append p c))
 
-(defn take [n o]
+(defn str-take [n o]
   (cond
    (string? o) (.substring o 0 n)))
 
