@@ -58,11 +58,12 @@
     (.layout bl)))
 
 (defn make-north [opts]
-  (let [height (or (:size opts)
-                   50)]
-    (doto ($html [:div {:class "border-layout-north"}
-                  opts])
-      (css {:height height}))))
+  (when opts
+    (let [height (or (:size opts)
+                     50)]
+      (doto ($html [:div {:class "border-layout-north"}
+                    opts])
+        (css {:height height})))))
 
 (defn make-west [opts]
   (when opts
